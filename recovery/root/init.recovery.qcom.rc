@@ -63,6 +63,10 @@ on boot
     # Workaround for adb not coming up
     setprop sys.usb.config mtp,adb
     setprop sys.usb.config adb
+    # Synaptics DSX RMI Node
+    chown system system /sys/devices/soc/c175000.i2c/i2c-1/1-0020/input/input2/wake_gesture
+    chmod 0644 /sys/devices/soc/c175000.i2c/i2c-1/1-0020/input/input2/wake_gesture
+    write /sys/devices/soc/c175000.i2c/i2c-1/1-0020/input/input2/wake_gesture 1
 
 on property:crypto.ready=0
     stop sbinqseecomd
