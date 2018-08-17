@@ -15,7 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 */
-package org.mokee.device;
+package org.lineageos.device;
 
 import android.os.Bundle;
 import android.os.SystemProperties;

@@ -15,7 +15,7 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.
 *
 */
-package org.mokee.device;
+package org.lineageos.device;
 
 import android.app.Activity;
 import android.app.AlertDialog;
