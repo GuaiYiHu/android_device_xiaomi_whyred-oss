@@ -59,6 +59,14 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.vendor.sensors.cmc=false \
     ro.vendor.sdk.sensors.gestures=false
 
+#enable headset calibration
+PRODUCT_PROPERTY_OVERRIDES += \
+audio.volume.headset.gain.depcal=true
+
+#enable dualmic fluence for voice communication
+PRODUCT_PROPERTY_OVERRIDES += \
+persist.audio.fluence.voicecomm=true
+
 #Set AudioFlinger client heap size
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.af.client_heap_size_kbyte=7168
