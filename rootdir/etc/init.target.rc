@@ -43,48 +43,41 @@ on init
 
     mkdir /cust 0771 system system
 
-    # Add a cpuset for the camera daemon
-    mkdir /dev/cpuset/camera-daemon 0750 cameraserver cameraserver
-    write /dev/cpuset/camera-daemon/cpus 0-7
-    write /dev/cpuset/camera-daemon/mems 0
-    chown cameraserver cameraserver /dev/cpuset/camera-daemon/tasks
-    chmod 0660 /dev/cpuset/camera-daemon/tasks
-
 on fs
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/bootdevice
     mount_all /vendor/etc/fstab.qcom
     swapon_all /vendor/etc/fstab.qcom
-
-    # Set permissions for persist partition
     chown root system /mnt/vendor/persist
     chmod 0771 /mnt/vendor/persist
-    mkdir /mnt/vendor/persist/bluetooth 0770 bluetooth bluetooth
-    mkdir /mnt/vendor/persist/bms 0700 root system
     mkdir /mnt/vendor/persist/data 0700 system system
-    mkdir /mnt/vendor/persist/display 0770 system graphics
-    mkdir /mnt/vendor/persist/hvdcp_opti 0770 root system
-    mkdir /mnt/vendor/persist/secnvm 0770 system system
-    mkdir /mnt/vendor/persist/time 0770 system system
+    mkdir /mnt/vendor/persist/stability 0755 system system
+    mkdir /mnt/vendor/persist/bms 0700 root system
     restorecon_recursive /mnt/vendor/persist
-
-    # Keeping following partitions outside fstab file. As user may not have
-    # these partition flashed on the device. Failure to mount any partition in fstab file
-    # results in failure to launch late-start class.
-
-    restorecon_recursive /persistbak
-
-
     write /sys/kernel/boot_adsp/boot 1
+    chown system system /dev/goodix_fp
+    #chmod 0644 /dev/goodix_fp
 
     chmod 0664 /sys/class/thermal/thermal_message/sconfig
     chown system system /sys/class/thermal/thermal_message/sconfig
 
+    #follow M6100 add premission for CCC test requirement by dingjian start 20181212
     chmod 0666 /sys/class/thermal/thermal_message/temp_state
     chown system system /sys/class/thermal/thermal_message/temp_state
+    #follow M6100 add premission for CCC test requirement by dingjian end 20181212
 
 on post-fs
     start vendor.qseecomd
+    write /dev/ipa 1
+
+    # We chown/chmod /cust again so because mount is run as root + defaults
+    chown system system /cust
+    chmod 0771 /cust
+    # We restorecon /cust in case the cust partition has been reset.
+    restorecon_recursive /cust
+
+    # create the lost+found directories, so as to enforce our permissions
+    mkdir /cust/lost+found 0770 root root
 
 on init
     write /sys/module/qpnp_rtc/parameters/poweron_alarm 1
@@ -94,12 +87,14 @@ on post-fs-data
     mkdir /data/tombstones/lpass 0771 system system
     mkdir /data/tombstones/wcnss 0771 system system
     mkdir /data/tombstones/dsps 0771 system system
-    mkdir /persist/qti_fp 0700 system system
+
     mkdir /data/misc/seemp 0700 system system
-    mkdir /data/misc/tloc 0700 system drmrpc
+    mkdir /data/vendor/tloc 0700 system drmrpc
+
+    mkdir /data/vendor/thermal 0771 root system
+    mkdir /data/vendor/thermal/config 0771 root system
 
 on boot
-    start vendor.rmt_storage
     write /dev/cpuset/top-app/cpus 0-7
     write /dev/cpuset/foreground/cpus 0-7
     write /dev/cpuset/background/cpus 0-7
@@ -122,11 +117,25 @@ on boot
     chown system system /persist/speccfg/vendor_persist.prop
     chown system system /persist/speccfg/submask
     chown system system /persist/speccfg/partition
+    chown system system /mnt/vendor/persist/sensors/sns.reg
+#spk pa-cal lct-20180914   
+    chmod 0664 /dev/tiload_node
+
+#Create folder dump yuv images while debugging
+    mkdir /data/vendor/camera 0770 camera camera
 
     # Touchscreen
     chown system system /sys/class/input/input2/wake_gesture
 
-    # Wifi firmware reload path
+    #add for display feature
+    chown system system /sys/class/graphics/fb0/msm_fb_ce
+    chown system system /sys/class/graphics/fb0/msm_fb_cabc
+    chown system system /sys/class/graphics/fb0/msm_fb_srgb
+    chown system system /sys/class/graphics/fb0/msm_fb_gamma
+    chown system system /sys/class/graphics/fb0/msm_fb_cabc_movie
+    chown system system /sys/class/graphics/fb0/msm_fb_cabc_still
+    chown system system /sys/class/graphics/fb0/msm_fb_hbm
+
     chown wifi wifi /sys/module/wlan/parameters/fwpath
 
 #USB controller configuration
@@ -157,32 +166,39 @@ on property:sys.shutdown.requested=*
     stop vendor.per_proxy
     stop vendor.ims_rtp_daemon
 
+on property:vendor.camera.thermal_lc=12
+    write /sys/class/thermal/thermal_message/sconfig 12
+
+on property:vendor.camera.thermal_lc=0
+    write /sys/class/thermal/thermal_message/sconfig 0
+
 service vendor.qseecomd /vendor/bin/qseecomd
-   class core
-   user root
-   group root
+    class core
+    user root
+    group root
 
-service vendor.thermal-engine /system/vendor/bin/thermal-engine
-   class main
-   user root
-   socket thermal-send-client stream 0666 system system
-   socket thermal-recv-client stream 0660 system system
-   socket thermal-recv-passive-client stream 0666 system system
-   socket thermal-send-rule stream 0660 system system
-   group root
+service thermal-engine /system/vendor/bin/thermal-engine
+    class main
+    user root
+    socket thermal-send-client stream 0666 system system
+    socket thermal-recv-client stream 0660 system system
+    socket thermal-recv-passive-client stream 0666 system system
+    socket thermal-send-rule stream 0660 system system
+    group root
 
-service vendor.time_daemon /system/vendor/bin/time_daemon
-   class late_start
-   user root
-   group root
-   writepid /dev/cpuset/system-background/tasks
+service time_daemon /system/vendor/bin/time_daemon
+    class late_start
+    user root
+    group root
+    writepid /dev/cpuset/system-background/tasks
 
-service vendor.adsprpcd /system/vendor/bin/adsprpcd audiopd
-   class main
-   user media
-   group media
-   writepid /dev/cpuset/system-background/tasks
+service adsprpcd /vendor/bin/adsprpcd audiopd
+    class main
+    user media
+    group media
+    writepid /dev/cpuset/system-background/tasks
 
+## imsdatadaemon starts with root and UID will be downgraded to SYSTEM.
 service vendor.imsqmidaemon /system/vendor/bin/imsqmidaemon
     class main
     user system
@@ -190,6 +206,7 @@ service vendor.imsqmidaemon /system/vendor/bin/imsqmidaemon
     group radio log diag
     writepid /dev/cpuset/system-background/tasks
 
+# imsdatadaemon starts with root and UID will be downgraded to SYSTEM.
 service vendor.imsdatadaemon /system/vendor/bin/imsdatadaemon
     class main
     user system
@@ -198,7 +215,7 @@ service vendor.imsdatadaemon /system/vendor/bin/imsdatadaemon
     disabled
     writepid /dev/cpuset/system-background/tasks
 
-service vendor.energy-awareness /system/vendor/bin/energy-awareness
+service energy-awareness /system/vendor/bin/energy-awareness
     class main
     user system
     group system
@@ -206,30 +223,27 @@ service vendor.energy-awareness /system/vendor/bin/energy-awareness
     writepid /dev/cpuset/system-background/tasks
 
 service vendor.pd_mapper /system/vendor/bin/pd-mapper
-     class core
+    class core
 
 on property:vendor.ims.QMI_DAEMON_STATUS=1
     start vendor.imsdatadaemon
 
 service vendor.ims_rtp_daemon /system/vendor/bin/ims_rtp_daemon
-   class main
-   user system
-   group radio diag inet log
-   writepid /dev/cpuset/system-background/tasks
+    class main
+    user system
+    group radio diag inet log
+    writepid /dev/cpuset/system-background/tasks
 
 service vendor.imsrcsservice /system/vendor/bin/imsrcsd
-   class main
-   user system
-   group radio diag inet log
-   writepid /dev/cpuset/system-background/tasks
+    class main
+    user system
+    group radio diag inet log wakelock
+    writepid /dev/cpuset/system-background/tasks
 
-# add for HMI_L8866_A01-502: begin
 on property:vendor.ims.DATA_DAEMON_STATUS=1
     restart vendor.ims_rtp_daemon
-    setprop persist.rcs.supported 0
-# add for HMI_L8866_A01-502: end
 
-service vendor.ppd /system/vendor/bin/mm-pp-dpps
+service ppd /system/vendor/bin/mm-pp-dpps
     class late_start
     user system
     group system graphics
@@ -237,75 +251,44 @@ service vendor.ppd /system/vendor/bin/mm-pp-dpps
     disabled
 
 on property:init.svc.surfaceflinger=stopped
-    stop vendor.ppd
+    stop ppd
 
 on property:init.svc.surfaceflinger=running
-    start vendor.ppd
+    start ppd
 
 on property:init.svc.surfaceflinger=restarting
-    stop vendor.ppd
+    stop ppd
 
 on property:init.svc.zygote=stopped
-    stop vendor.ppd
+    stop ppd
 
 on property:init.svc.zygote=running
-    start vendor.ppd
+    start ppd
 
 on property:init.svc.zygote=restarting
-    stop vendor.ppd
+    stop ppd
 
 on property:sys.boot_completed=1
     setprop sys.io.scheduler "bfq"
 
 on charger
-    load_system_props
-    start vendor.qcom-post-boot
+    start qcom-post-boot
     start vendor.hvdcp_opti
     setprop sys.usb.configfs 1
-    start vendor.thermal-engine
-
-service vendor.qfp-daemon /vendor/bin/qfp-daemon
-    class late_start
-    user system
-    group system drmrpc diag input
+    start thermal-engine
 
 service vendor.hvdcp_opti /system/vendor/bin/hvdcp_opti
-     class main
-     user root
-     group system wakelock
-     writepid /dev/cpuset/system-background/tasks
-	
+    class main
+    user root
+    group system wakelock
+    writepid /dev/cpuset/system-background/tasks
+
+# lcd effect
 on property:persist.sys.display_srgb=1
     write /sys/class/graphics/fb0/msm_fb_srgb 1
 
 on property:persist.sys.display_srgb=2
     write /sys/class/graphics/fb0/msm_fb_srgb 2
-
-on property:sys.dynamic_debug=1
-   write /sys/kernel/debug/dynamic_debug/control "file q6afe.c +p" 
-   write /sys/kernel/debug/dynamic_debug/control "file q6adm.c +p" 
-   write /sys/kernel/debug/dynamic_debug/control "file msm-pcm-routing-v2.c +p" 
-   write /sys/kernel/debug/dynamic_debug/control "file msm-dai-q6-v2.c +p" 
-   write /sys/kernel/debug/dynamic_debug/control "file soc-core.c +p" 
-   write /sys/kernel/debug/dynamic_debug/control "file soc-dapm.c +p" 
-   write /sys/kernel/debug/dynamic_debug/control "file sdm660-internal.c +p" 
-   write /sys/kernel/debug/dynamic_debug/control "file sdm660-common.c +p" 
-   write /sys/kernel/debug/dynamic_debug/control "file msm-analog-cdc.c +p" 
-   write /sys/kernel/debug/dynamic_debug/control "file msm-digital-cdc.c +p"
-   write /sys/kernel/debug/dynamic_debug/control "file wcd-mbhc-v2.c +p" 
-
-on property:sys.dynamic_debug=0
-   write /sys/kernel/debug/dynamic_debug/control "file q6afe.c -p" 
-   write /sys/kernel/debug/dynamic_debug/control "file q6adm.c -p" 
-   write /sys/kernel/debug/dynamic_debug/control "file msm-pcm-routing-v2.c -p" 
-   write /sys/kernel/debug/dynamic_debug/control "file msm-dai-q6-v2.c -p" 
-   write /sys/kernel/debug/dynamic_debug/control "file soc-core.c -p" 
-   write /sys/kernel/debug/dynamic_debug/control "file soc-dapm.c -p" 
-   write /sys/kernel/debug/dynamic_debug/control "file sdm660-internal.c -p" 
-   write /sys/kernel/debug/dynamic_debug/control "file sdm660-common.c -p" 
-   write /sys/kernel/debug/dynamic_debug/control "file msm-analog-cdc.c -p" 
-   write /sys/kernel/debug/dynamic_debug/control "file msm-digital-cdc.c -p"
-   write /sys/kernel/debug/dynamic_debug/control "file wcd-mbhc-v2.c -p"
 
 on property:persist.sys.display_ce=4
     write /sys/class/graphics/fb0/msm_fb_ce 1

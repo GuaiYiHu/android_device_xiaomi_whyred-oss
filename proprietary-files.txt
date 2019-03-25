@@ -49,11 +49,11 @@ lib/com.qualcomm.qti.ant@1.0.so|fcd6a7130c480bfe4e4d9cc00702ed8444cddc82
 lib64/com.qualcomm.qti.ant@1.0.so|199481b290856fb63f5c5bf6def426b43309becb
 -lib64/libantradio.so|fb958cb68c99c71455f969afdf96225f5110f0df
 
-# ANT+ (vendor)
-vendor/lib/com.qualcomm.qti.ant@1.0_vendor.so
-vendor/lib/hw/com.qualcomm.qti.ant@1.0-impl.so
-vendor/lib64/com.qualcomm.qti.ant@1.0_vendor.so
-vendor/lib64/hw/com.qualcomm.qti.ant@1.0-impl.so
+# ANT+ (vendor) - from Redmi Note 7 lavender-user 9 PKQ1.180904.001 9.2.11 release-keys
+vendor/lib/com.qualcomm.qti.ant@1.0.so|6028cb95d17ee080a3d05bdcff952ddc9aa1f494
+vendor/lib/hw/com.qualcomm.qti.ant@1.0-impl.so|86d7fd231c4c820172e133509dd338f700f1aaf1
+vendor/lib64/com.qualcomm.qti.ant@1.0.so|44294189280e86d95538bc51bdccd87b3f010f27
+vendor/lib64/hw/com.qualcomm.qti.ant@1.0-impl.so|474187a8132aabd45089cacd2f8de9a6d9f449a3
 
 # AptX - from Nokia 7 Plus Onyx_00WW-user 9 PPR1.180610.011 00WW_3_22C release-keys
 vendor/lib64/libaptX_encoder.so|22f5749edb5099526788c22708099a7791dd837f
@@ -115,66 +115,43 @@ vendor/lib64/libbt-hidlclient.so|cd3513edb12f5e9ef1825c13a290d42e05b7a69b
 vendor/lib64/libbtnv.so|d567d41d60b98703f93ab15b2f8a894f0ebdc1fc
 
 # Camera
-lib/libskia.so:vendor/lib/libskia.so
-lib/libtrueportrait.so:vendor/lib/libtrueportrait.so
-lib/libicuuc.so:vendor/lib/libicuuc-v27.so
-lib/libminikin.so:vendor/lib/libminikin-v27.so
-vendor/etc/camera/age_gender_bg
 vendor/etc/camera/camera_config.xml
-vendor/etc/camera/crown_156_128.bin
 vendor/etc/camera/csidtg_camera.xml
 vendor/etc/camera/csidtg_chromatix.xml
-vendor/etc/camera/dualcamera.png
-vendor/etc/camera/dualcamera_in.png
-vendor/etc/camera/face_goodly_208_180
-vendor/etc/camera/face_ravishing_238_224
-vendor/etc/camera/face_splendid_274_200
 vendor/etc/camera/female_bg.png
 vendor/etc/camera/female_icon.png
-vendor/etc/camera/lf_facerank_model.bin
 vendor/etc/camera/male_bg.png
 vendor/etc/camera/male_icon.png
-vendor/etc/camera/Miui-Light.ttf
-vendor/etc/camera/MIUI_Time.ttf
-vendor/etc/camera/morpho_lowlight4.0.xml
-vendor/etc/camera/people_gender.dat
 vendor/etc/camera/score_bg.png
 vendor/etc/camera/score_icon.png
-vendor/etc/camera/sdm_ys_32p_120_21_5_perturb50.bin
-vendor/etc/camera/watermark_font_2300_3199.dat
 vendor/etc/camera/whyred_ov13855_sunny_cn_i_chromatix.xml
 vendor/etc/camera/whyred_s5k2l7_ofilm_cn_i_chromatix.xml
 vendor/etc/camera/whyred_s5k2l7_qtech_cn_ii_chromatix.xml
 vendor/etc/camera/whyred_s5k3l8_ofilm_cn_ii_chromatix.xml
 vendor/etc/camera/whyred_s5k5e8_ofilm_cn_i_chromatix.xml
 vendor/etc/camera/whyred_s5k5e8_qtech_cn_ii_chromatix.xml
+vendor/etc/MIUI_DualCamera_watermark.png
+vendor/etc/MIUI_Time.ttf
+vendor/etc/Miui-Light.ttf
 vendor/lib/hw/camera.sdm660.so
-vendor/lib/libMiCameraHal.so
 vendor/lib/libmmcamera_interface.so
 vendor/lib/libmmjpeg_interface.so
 vendor/lib/libqomx_core.so
 vendor/lib/lib_lowlight.so
-vendor/lib/libarcsoft_beautyshot_exin.so
 vendor/lib/libarcsoft_beautyshot.so
 vendor/lib/libarcsoft_dualcam_refocus.so
 vendor/lib/libarcsoft_high_dynamic_range.so
-vendor/lib/libcamera_scene.so
 vendor/lib/libcdsprpc.so
-vendor/lib/libchromaflash.so
 vendor/lib/libdepthmapwrapper.so
-vendor/lib/libdualcameraddm.so
-vendor/lib/libFaceGrade.so
 vendor/lib/libflash_pmic.so
-vendor/lib/libgnustl_shared.so
 vendor/lib/libhal_dbg.so
 vendor/lib/libjpegdhw.so
 vendor/lib/libjpegdmahw.so
 vendor/lib/libjpegehw.so
-vendor/lib/libmibokeh_636.so
+vendor/lib/libmibokeh_660.so
 vendor/lib/libMiWatermark.so
 vendor/lib/libmm-qcamera.so
 vendor/lib/libmmlib2d_interface.so
-vendor/lib/libmmcamera_chromaflash_lib.so
 vendor/lib/libmmcamera_dbg.so
 vendor/lib/libmmcamera_dummyalgo.so
 vendor/lib/libmmcamera_eebinparse.so
@@ -188,20 +165,16 @@ vendor/lib/libmmcamera_hvx_add_constant.so
 vendor/lib/libmmcamera_hvx_grid_sum.so
 vendor/lib/libmmcamera_imglib.so
 vendor/lib/libmmcamera_imglib_faceproc_adspstub.so
-vendor/lib/libmmcamera_llvd.so
-vendor/lib/libmmcamera_optizoom_lib.so
 vendor/lib/libmmcamera_paaf_lib.so
 vendor/lib/libmmcamera_pdaf.so
 vendor/lib/libmmcamera_pdafcamif.so
 vendor/lib/libmmcamera_ppbase_module.so
 vendor/lib/libmmcamera_ppeiscore.so
 vendor/lib/libmmcamera_quadracfa.so
-vendor/lib/libmmcamera_stillmore_lib.so
 vendor/lib/libmmcamera_sw2d_lib.so
 vendor/lib/libmmcamera_thread_services.so
 vendor/lib/libmmcamera_tintless_algo.so
 vendor/lib/libmmcamera_tintless_bg_pca_algo.so
-vendor/lib/libmmcamera_trueportrait_lib.so
 vendor/lib/libmmcamera_tuning_lookup.so
 vendor/lib/libmmcamera_tuning.so
 vendor/lib/libmmcamera2_c2d_module.so
@@ -223,9 +196,7 @@ vendor/lib/libmmcamera2_stats_modules.so
 vendor/lib/libmmjpeg.so
 vendor/lib/libmmqjpeg_codec.so
 vendor/lib/libmmqjpegdma.so
-vendor/lib/libmorphohht4.0.so
 vendor/lib/libmpbase.so
-vendor/lib/liboptizoom.so
 vendor/lib/libqomx_jpegdec.so
 vendor/lib/libqomx_jpegenc_pipe.so
 vendor/lib/libqomx_jpegenc.so
@@ -234,33 +205,19 @@ vendor/lib/libscveBlobDescriptor.so
 vendor/lib/libscveBlobDescriptor_stub.so
 vendor/lib/libscveCommon.so
 vendor/lib/libscveCommon_stub.so
-vendor/lib/libscveFaceLandmarks.so
-vendor/lib/libscveFaceLandmarks_stub.so
 vendor/lib/libscveFaceRecognition.so
-vendor/lib/libscveImageCorrection.so
 vendor/lib/libscveObjectSegmentation.so
+vendor/lib/libscveObjectSegmentation_stub.so
 vendor/lib/libscveObjectTracker.so
 vendor/lib/libscveObjectTracker_stub.so
 vendor/lib/libscvePanorama.so
 vendor/lib/libscvePanorama_lite.so
-vendor/lib/libseemore.so
-vendor/lib/libSNPE.so
-vendor/lib/libsymphony-cpu.so
-vendor/lib/libsymphonypower.so
-vendor/lib/libts_detected_face_hal.so
-vendor/lib/libts_face_beautify_hal.so
-vendor/lib/libubifocus.so
-vendor/lib/libVDClearShot.so
-vendor/lib/libVDSuperPhotoAPI.so
-vendor/lib/libvideobokeh.so
 vendor/lib/libvideoutils.so
 vendor/lib/libvidhance.so
 vendor/lib/libvidhance_gyro.so
 vendor/lib/libXMFD_AgeGender.so
-vendor/lib/mibokeh_636_opencl.bin
+vendor/lib/mibokeh_660_opencl.bin
 vendor/lib64/libcdsprpc.so
-vendor/lib64/libchromaflash.so
-vendor/lib64/libdualcameraddm.so
 vendor/lib64/libmmcamera2_frame_algorithm.so
 vendor/lib64/libmmcamera2_is.so
 vendor/lib64/libmmcamera2_q3a_core.so
@@ -271,25 +228,17 @@ vendor/lib64/libmmcamera_faceproc.so
 vendor/lib64/libmmcamera_faceproc2.so
 vendor/lib64/libmmcamera_tintless_algo.so
 vendor/lib64/libmmcamera_tintless_bg_pca_algo.so
-vendor/lib64/liboptizoom.so
 vendor/lib64/libscveBlobDescriptor.so
 vendor/lib64/libscveBlobDescriptor_stub.so
 vendor/lib64/libscveCommon.so
 vendor/lib64/libscveCommon_stub.so
-vendor/lib64/libscveFaceLandmarks.so
-vendor/lib64/libscveFaceLandmarks_stub.so
 vendor/lib64/libscveFaceRecognition.so
-vendor/lib64/libscveImageCorrection.so
 vendor/lib64/libscveObjectSegmentation.so
+vendor/lib64/libscveObjectSegmentation_stub.so
 vendor/lib64/libscveObjectTracker.so
 vendor/lib64/libscveObjectTracker_stub.so
 vendor/lib64/libscvePanorama.so
 vendor/lib64/libscvePanorama_lite.so
-vendor/lib64/libseemore.so
-vendor/lib64/libts_detected_face_hal.so
-vendor/lib64/libts_face_beautify_hal.so
-vendor/lib64/libubifocus.so
-vendor/lib64/libvideobokeh.so
 vendor/lib64/libvideoutils.so
 
 # Camera actuators
@@ -737,9 +686,7 @@ vendor/lib/libois_bu63165.so
 # Camera sensors
 vendor/lib/libmmcamera_arcsoftbokeh_lib.so
 vendor/lib/libmmcamera_bokeh.so
-vendor/lib/libmmcamera_csidtg.so
 vendor/lib/libmmcamera_depth_map.so
-vendor/lib/libmmcamera_dw9761b_2d_eeprom.so
 vendor/lib/libmmcamera_isp_abf48.so
 vendor/lib/libmmcamera_isp_aec_bg_stats47.so
 vendor/lib/libmmcamera_isp_bf_stats47.so
@@ -928,7 +875,9 @@ vendor/etc/init/vendor.qti.esepowermanager@1.0-service.rc|58a3866ad5a7613d9392c9
 lib/vendor.qti.esepowermanager@1.0.so|e65ad704bb73308ddc7eabeeaf46b8d8a3f57f4c
 lib64/vendor.qti.esepowermanager@1.0.so|1662a45073eb48f9682975289ba87e314e6edec8
 vendor/lib/hw/vendor.qti.esepowermanager@1.0-impl.so|ffa61e2f9f5305fa91d9f3a6ed2ee366ae8bf413
+vendor/lib/vendor.qti.esepowermanager@1.0.so|e65ad704bb73308ddc7eabeeaf46b8d8a3f57f4c
 vendor/lib64/hw/vendor.qti.esepowermanager@1.0-impl.so|5061bb7675b5ad6a8ba8e2090c8c8a15cf83aebc
+vendor/lib64/vendor.qti.esepowermanager@1.0.so|1662a45073eb48f9682975289ba87e314e6edec8
 
 # Fingerprint firmware
 etc/firmware/goodixfp.b00:vendor/firmware/goodixfp.b00
@@ -951,18 +900,15 @@ vendor/firmware/fpctzappfingerprint.b07
 vendor/firmware/fpctzappfingerprint.mdt
 
 # Fingerprint sensor
-lib64/libsoftkeymaster.so:vendor/lib64/libsoftkeymaster.so
 -vendor/app/FingerprintExtensionService/FingerprintExtensionService.apk
 vendor/bin/qfp-daemon
 vendor/etc/permissions/com.fingerprints.extension.xml
 vendor/framework/com.fingerprints.extension.jar
-vendor/lib/hw/fingerprint.goodix.default.so
 vendor/lib/vendor.qti.hardware.fingerprint@1.0.so
 vendor/lib64/hw/fingerprint.default.so
 vendor/lib64/hw/fingerprint.fpc.default.so
 vendor/lib64/hw/fingerprint.goodix.default.so
 vendor/lib64/com.fingerprints.extension@1.0.so
-vendor/lib64/libgoodixfingerprintd_binder.so
 vendor/lib64/libgf_ca.so
 vendor/lib64/libgf_hal.so
 vendor/lib64/libqfp-service.so
@@ -1190,10 +1136,12 @@ vendor/lib64/libvpptestutils.so|2f141f08570013cd3004550753d3a1c9fae8cbee
 vendor/lib64/vendor.qti.hardware.vpp@1.1.so|8e39a979aac1aa7002ef4e50c74878177ee755f7
 
 # Mlipay
-etc/init/vendor.xiaomi.hardware.mlipay@1.0-service.rc:vendor/etc/init/vendor.xiaomi.hardware.mlipay@1.0-service.rc
-lib64/vendor.xiaomi.hardware.mlipay@1.0.so:vendor/lib64/vendor.xiaomi.hardware.mlipay@1.0.so
-vendor/bin/mlipayd
+vendor/bin/mlipayd@1.1
+vendor/etc/init/vendor.xiaomi.hardware.mlipay@1.1-service.rc
+vendor/lib64/libmlipay@1.1.so
 vendor/lib64/libmlipay.so
+vendor/lib64/vendor.xiaomi.hardware.mlipay@1.0.so
+vendor/lib64/vendor.xiaomi.hardware.mlipay@1.1.so
 
 # Perf - from MI 8 Lite platina-user 9 PKQ1.181007.001 8.12.13 release-keys
 vendor/bin/energy-awareness|c1ad0ec1e4171b59f166e580ef8ce7395ccb41a5
@@ -1378,7 +1326,7 @@ vendor/lib64/vendor.qti.ims.callinfo@1.0.so|a6924fdc270404b4a0a5a86a414159fd2886
 vendor/lib64/vendor.qti.ims.rcsconfig@1.0.so|4cb6683a36ad11b18632fe99d7031e6a3c9a1b9b
 
 # Sensors
-vendor/bin/sensors.qcom
+vendor/bin/sensors.qti
 vendor/etc/sensors/sensor_def_qcomdev.conf
 vendor/lib/hw/activity_recognition.sdm660.so
 vendor/lib/libsensor_reg.so
@@ -1389,11 +1337,19 @@ vendor/lib64/libsensor_reg.so
 vendor/lib64/libsensor1.so
 vendor/lib64/sensors.ssc.so
 
+# Soter
+-app/SoterService/SoterService.apk
+framework/vendor.qti.hardware.soter-V1.0-java.jar
+lib64/vendor.qti.hardware.soter@1.0.so
+vendor/bin/hw/vendor.qti.hardware.soter@1.0-service
+vendor/etc/init/vendor.qti.hardware.soter@1.0-service.rc
+vendor/lib64/vendor.qti.hardware.soter@1.0.so
+vendor/lib64/hw/vendor.qti.hardware.soter@1.0-impl.so
+
 # Thermal
 vendor/etc/thermal-engine.conf
-vendor/etc/thermal-engine-china.conf
-vendor/etc/thermal-engine-india.conf
 vendor/etc/thermal-engine-map.conf
+vendor/etc/thermal-engine-normal.conf
 vendor/etc/thermal-engine-sgame.conf
 vendor/bin/thermal-engine
 vendor/lib/libthermalfeature.so
