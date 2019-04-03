@@ -123,7 +123,7 @@ if [ "$(getprop persist.vendor.usb.config)" == "" -a \
 				      setprop persist.vendor.usb.config diag,serial_smd,rmnet_ipa,adb
 			      fi
 		      ;;
-	              "msm8998" | "sdm660" | "apq8098_latv")
+	              "msm8998" | "sdm660" | "sdm636"| "apq8098_latv")
 		          setprop persist.vendor.usb.config diag,serial_cdev,rmnet,adb
 		      ;;
 	              "sdm845" | "sdm710")
@@ -172,11 +172,11 @@ esac
 # check configfs is mounted or not
 if [ -d /config/usb_gadget ]; then
 	# Chip-serial is used for unique MSM identification in Product string
-	# msm_serial=`cat /sys/devices/soc0/serial_number`;
-	# msm_serial_hex=`printf %08X $msm_serial`
-	# machine_type=`cat /sys/devices/soc0/machine`
-	# product_string="$machine_type-$soc_hwplatform _SN:$msm_serial_hex"
-	# echo "$product_string" > /config/usb_gadget/g1/strings/0x409/product
+	msm_serial=`cat /sys/devices/soc0/serial_number`;
+	msm_serial_hex=`printf %08X $msm_serial`
+	machine_type=`cat /sys/devices/soc0/machine`
+	product_string="$machine_type-$soc_hwplatform _SN:$msm_serial_hex"
+	echo "$product_string" > /config/usb_gadget/g1/strings/0x409/product
 
 	# ADB requires valid iSerialNumber; if ro.serialno is missing, use dummy
 	serialnumber=`cat /config/usb_gadget/g1/strings/0x409/serialnumber` 2> /dev/null
@@ -184,16 +184,6 @@ if [ -d /config/usb_gadget ]; then
 		serialno=1234567
 		echo $serialno > /config/usb_gadget/g1/strings/0x409/serialnumber
 	fi
-	persist_comp=`getprop persist.vendor.usb.config`
-	comp=`getprop sys.usb.config`
-	echo $persist_comp
-	echo $comp
-	if [ "$comp" != "$persist_comp" ]; then
-	    echo "setting sys.usb.config"
-	    setprop sys.usb.config $persist_comp
-	fi
-
-	setprop sys.usb.configfs 1
 fi
 
 #
