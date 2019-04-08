@@ -2336,7 +2336,9 @@ int32_t mm_jpeg_init(mm_jpeg_obj *my_obj)
   int32_t rc = 0;
   uint32_t work_buf_size;
   unsigned int initial_workbufs_cnt = 1;
+#ifdef LIB2D_ROTATION_ENABLE
   char  prop[PROPERTY_VALUE_MAX];
+#endif
 
   /* init locks */
   pthread_mutex_init(&my_obj->job_lock, NULL);
@@ -2405,6 +2407,7 @@ int32_t mm_jpeg_init(mm_jpeg_obj *my_obj)
   // create dummy OMX handle to avoid dlopen latency
   OMX_GetHandle(&my_obj->dummy_handle, mm_jpeg_get_comp_name(), NULL, NULL);
 
+#ifdef LIB2D_ROTATION_ENABLE
   property_get("persist.vendor.camera.lib2d.rotation", prop, "off");
   if (!strcmp(prop, "on")) {
     my_obj->is_lib2d_enable = 1;
@@ -2426,7 +2429,7 @@ int32_t mm_jpeg_init(mm_jpeg_obj *my_obj)
       my_obj->static_lib2d_handle = NULL;
     }
   }
-
+#endif
 
   return rc;
 }
@@ -2448,6 +2451,7 @@ int32_t mm_jpeg_deinit(mm_jpeg_obj *my_obj)
   int32_t rc = 0;
   uint32_t i = 0;
 
+#ifdef LIB2D_ROTATION_ENABLE
   if (my_obj->is_lib2d_enable) {
     lib2d_error lib2d_err = MM_LIB2D_SUCCESS;
     lib2d_err = mm_lib2d_deinit(my_obj->static_lib2d_handle);
@@ -2455,6 +2459,7 @@ int32_t mm_jpeg_deinit(mm_jpeg_obj *my_obj)
       LOGE("Error in mm_lib2d_deinit \n");
     }
   }
+#endif
 
   /* release jobmgr thread */
   rc = mm_jpeg_jobmgr_thread_release(my_obj);
@@ -2861,6 +2866,8 @@ int32_t mm_jpeg_start_job(mm_jpeg_obj *my_obj,
 
   memset(node, 0, sizeof(mm_jpeg_job_q_node_t));
   node->enc_info.encode_job = job->encode_job;
+
+#ifdef LIB2D_ROTATION_ENABLE
   if (my_obj->is_lib2d_enable) {
     if (p_session->lib2d_rotation_flag) {
       rc = mm_jpeg_lib2d_rotation(p_session, node, job, job_id);
@@ -2871,6 +2878,7 @@ int32_t mm_jpeg_start_job(mm_jpeg_obj *my_obj,
       }
     }
   }
+#endif
 
   if (p_session->thumb_from_main) {
     node->enc_info.encode_job.thumb_dim.src_dim =
