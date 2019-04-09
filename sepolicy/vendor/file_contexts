@@ -22,9 +22,6 @@
 # Light HAL
 /(vendor|system/vendor)/bin/hw/android\.hardware\.light@2\.0-service\.xiaomi_sdm660 u:object_r:hal_light_default_exec:s0
 
-# Persist
-/persist/PRSensorData\.txt                                    u:object_r:sensors_persist_file:s0
-
 # Touchscreen
 /sys/devices/soc/c175000\.i2c/i2c-1/1-[0-9a-f]+/input/input[0-9]+/wake_gesture u:object_r:sysfs_tap_to_wake:s0
 

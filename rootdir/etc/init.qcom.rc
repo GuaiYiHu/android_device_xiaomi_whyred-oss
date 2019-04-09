@@ -395,14 +395,6 @@ on post-fs-data
     mkdir /data/fota 0771
     chown system system /data/fota
 
-    # SSC/SLPI sensors
-    mkdir /persist/sensors 0775 sensors sensors
-    write /persist/sensors/sensors_settings 1
-    chown system root /persist/sensors/sensors_settings
-    chmod 0664 /persist/sensors/sensors_settings
-    chown system system /persist/PRSensorData.txt
-    chmod 0600 /persist/PRSensorData.txt
-
     #Create directory for hostapd
     mkdir /data/hostapd 0770 system wifi
 
@@ -572,8 +564,9 @@ service vendor.dataqti /system/vendor/bin/qti
 
 service vendor.sensors.qti /vendor/bin/sensors.qti
     class core
-    user root
-    group root
+    user system
+    group system
+    disabled
     writepid /dev/cpuset/system-background/tasks
 
 on property:ro.vendor.use_data_netmgrd=false
@@ -623,6 +616,11 @@ service qcom-sh /vendor/bin/init.qcom.sh
     class late_start
     user root
     group root system radio
+    oneshot
+
+service vendor-sensor-sh /vendor/bin/init.qcom.sensors.sh
+    class core
+    user root
     oneshot
 
 service qcom-post-boot /vendor/bin/init.qcom.post_boot.sh
