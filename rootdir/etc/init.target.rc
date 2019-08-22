@@ -125,7 +125,8 @@ on boot
     mkdir /data/vendor/camera 0770 camera camera
 
     # Touchscreen
-    chown system system /sys/class/input/input2/wake_gesture
+    chown system system /proc/tp_gesture
+    chmod 0660  /proc/tp_gesture
 
     #add for display feature
     chown system system /sys/class/graphics/fb0/msm_fb_ce
