@@ -677,6 +677,11 @@ vendor/firmware/cpp_firmware_v1_5_2.fw
 vendor/firmware/cpp_firmware_v1_6_0.fw
 vendor/firmware/cpp_firmware_v1_8_0.fw
 
+# Camera dependency
+vendor/lib/libicuuc.so:vendor/lib/libicuuq.so
+vendor/lib/libminikin.so:vendor/lib/libminikiq.so
+vendor/lib/libui.so:vendor/lib/libuq.so
+
 # Camera OIS
 vendor/lib/libois_bu63165.so
 
