@@ -71,6 +71,8 @@ static void init_setup_model_properties()
     } else {
         property_override_dual("ro.product.model", "ro.vendor.product.model",  "Redmi Note 5 Pro");
     }
+
+        property_override_dual("ro.build.fingerprint", "ro.vendor.build.fingerprint", "xiaomi/whyred/whyred:9/PKQ1.180904.001/V10.3.1.0.PEICNXM:user/release-keys");
 }
 
 void vendor_load_properties()
